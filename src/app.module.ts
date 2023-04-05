@@ -4,10 +4,29 @@ import { AppService } from './app.service';
 import { CoffeesController } from './coffees/coffees.controller';
 import { CoffeesService } from './coffees/coffees.service';
 import { CoffeesModule } from './coffees/coffees.module';
-
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import * as Joi from 'joi';
 @Module({
-  imports: [CoffeesModule],
-  controllers: [AppController, CoffeesController],
-  providers: [AppService, CoffeesService],
+  imports: [
+    ConfigModule.forRoot({
+      validationSchema: Joi.object({
+        MONGO_URI: Joi.string().required(),
+      }),
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => {
+        const uri = configService.get('MONGO_URI');
+        return {
+          uri,
+        };
+      },
+    }),
+    CoffeesModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,6 +1,8 @@
 export class CoffeeMoedl {
-    id: number;
-    name: string;
-    brand: string;
-    flavors: string[];
-  }
+ constructor(
+   public name: string,
+   public brand: string,
+   public flavors: string[],
+   public _id: number,
+  ) { }
+}
