@@ -64,17 +64,22 @@ export class CoffeesController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.coffeesService.findOne(id);
+    findOne(@Param('id') id: number) {
+        console.log(typeof id)
+        /*  app.useGlobalPipes(new ValidationPipe({ transform: true, }));
+            sem o transform: true o console continua retornando o ID como string  https://learn.nestjs.com/courses/591712/lectures/23192392
+        */
+        return this.coffeesService.findOne('' + id);
     }
 
     @Post()
-    create(@Body() createCoffeeDto:CreateCoffeeDto) {
+    create(@Body() createCoffeeDto: CreateCoffeeDto) {
+        console.log(createCoffeeDto instanceof CoffeesController)
         return this.coffeesService.create(createCoffeeDto);
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateCoffeeDto:UpdateCoffeeDto) {
+    update(@Param('id') id: string, @Body() updateCoffeeDto: UpdateCoffeeDto) {
         return this.coffeesService.update(id, updateCoffeeDto);
     }
 
