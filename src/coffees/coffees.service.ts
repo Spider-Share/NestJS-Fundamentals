@@ -9,7 +9,8 @@ import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { Event, EventDocument } from './schemas/events/event.schema';
 import { COFFEE_BRANDS } from './constants/coffees.constants';
 import { REQUEST } from '@nestjs/core';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 // https://ru-nestjs-docs.netlify.app/fundamentals/injection-scopes
 // SINGLETON	Uma única instância do provedor é compartilhada em todo o aplicativo. O tempo de vida da instância está diretamente ligado ao ciclo de vida do aplicativo. Depois que o aplicativo foi inicializado, todos os provedores singleton foram instanciados. O escopo Singleton é usado por padrão.
@@ -27,6 +28,10 @@ export class CoffeesService {
         @Inject(COFFEE_BRANDS) coffeeBrands: string[],
         private readonly configService: ConfigService,
 
+        @Inject(coffeesConfig.KEY) // forma correta por conta dos testes e outras coisas mais 
+        private coffeesConfiguration: ConfigType<typeof coffeesConfig>, 
+        
+
     ) {
         // console.log('connection connection',connection) // Pega toda a conecção do mongoose
         console.log('coffeeBrands coffeeBrands', coffeeBrands) // scope: Scope.REQUEST só aparece quando ocorrer um request
@@ -34,7 +39,11 @@ export class CoffeesService {
         // const databaseHost = this.configService.get<string>('MONGO_URI', 'mongodb://localhost/nest-course');
         // const databaseHost = this.configService.get('database.MONGO_URI', 'mongodb://localhost/nest-course');
         const databaseHost = this.configService.get('database.host', 'mongodb://localhost/nest-course');
+        const coffeesConfig0 = this.configService.get('coffees');
         console.log('databaseHost', databaseHost);
+        console.log('coffeesConfig', coffeesConfig0);
+
+        console.log('coffeesConfig', coffeesConfiguration.ga_velloso);
     }
 
     findAll(paginationQuery: PaginationQueryDto) {

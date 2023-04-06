@@ -8,6 +8,7 @@ import { Event, EventSchema } from './schemas/events/event.schema';
 import { COFFEE_BRANDS } from './constants/coffees.constants';
 import { Connection } from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
+import coffeesConfig from './config/coffees.config';
 
 @Injectable()
 export class CoffeeBrandsFactory {
@@ -31,7 +32,7 @@ export class CoffeeBrandsFactory {
         schema: EventSchema
       }
     ]),
-    ConfigModule
+    ConfigModule.forFeature(coffeesConfig) /* Partial Registration of coffees namespaced configuration */
   ],
   controllers: [CoffeesController],
   providers: [
@@ -46,6 +47,7 @@ export class CoffeeBrandsFactory {
       useFactory: () => ['buddy brew', 'nescafe', 'pilao'], // array of coffee brands,
       scope: Scope.TRANSIENT
     },
+
     // {
     //   provide: COFFEE_BRANDS, // não está funcionando verificar
     //   useFactory: (brandsFactory: CoffeeBrandsFactory) => 
