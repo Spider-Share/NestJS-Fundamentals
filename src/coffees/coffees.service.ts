@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CoffeeMoedl } from './models/coffee.model';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
@@ -13,10 +13,12 @@ export class CoffeesService {
 
     constructor(
         @InjectModel(Coffee.name) private readonly coffeeModel: Model<CoffeeDocument>,
-        @InjectConnection() private readonly connection: Connection, // For Transactions
         @InjectModel(Event.name) private readonly eventModel: Model<EventDocument>,
-
-    ) { }
+        @InjectConnection() private readonly connection: Connection, // For Transactions
+        @Inject('COFFEE_BRANDS') coffeeBrands: string[]
+    ) { 
+        console.log('coffeeBrands coffeeBrands',coffeeBrands)
+    }
 
     findAll(paginationQuery: PaginationQueryDto) {
         const { limit, offset } = paginationQuery;

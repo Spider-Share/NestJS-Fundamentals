@@ -6,6 +6,7 @@ import { CoffeesService } from './coffees/coffees.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import * as Joi from 'joi';
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import * as Joi from 'joi';
       },
     }),
     CoffeesModule,
+    CoffeeRatingModule,
   ],
   controllers: [AppController],
   providers: [AppService],

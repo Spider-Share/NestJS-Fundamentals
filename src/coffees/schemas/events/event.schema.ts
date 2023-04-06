@@ -10,7 +10,7 @@ export class Event extends Document {  // Note "entity" was removed from the cla
   @Prop()
   type: string;
 
-  @Prop()
+  @Prop({ index: true })
   name: string;
 
   @Prop(SchemaTypes.Mixed)
@@ -19,3 +19,5 @@ export class Event extends Document {  // Note "entity" was removed from the cla
 }
 
 export const EventSchema = SchemaFactory.createForClass(Event);
+// EventSchema.index({ name: 1, type: 1 }) // Ordem crescente - ascending
+EventSchema.index({ name: 1, type: -1 }) // Ordem decrescente - descending
