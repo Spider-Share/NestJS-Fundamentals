@@ -16,10 +16,10 @@ export class CoffeesService {
         @InjectModel(Coffee.name) private readonly coffeeModel: Model<CoffeeDocument>,
         @InjectModel(Event.name) private readonly eventModel: Model<EventDocument>,
         @InjectConnection() private readonly connection: Connection, // For Transactions
-        @Inject(COFFEE_BRANDS) coffeeBrands: string[]
+        @Inject(COFFEE_BRANDS) coffeeBrands: string[],
     ) { 
-        // console.log('connection connection',connection) // Pega toda a conecção do mongoose
-        console.log('coffeeBrands coffeeBrands',coffeeBrands)
+        console.log('connection connection',connection) // Pega toda a conecção do mongoose
+        //console.log('coffeeBrands coffeeBrands',coffeeBrands)
     }
 
     findAll(paginationQuery: PaginationQueryDto) {

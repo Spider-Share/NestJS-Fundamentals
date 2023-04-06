@@ -11,7 +11,7 @@ import { Connection } from 'mongoose';
 @Injectable()
 export class CoffeeBrandsFactory {
   create() {
-    return ['buddy brew', 'nescafe', 'pilao'] 
+    return ['buddy brew', 'nescafe', 'pilao']
   }
 }
 
@@ -38,29 +38,29 @@ export class CoffeeBrandsFactory {
     //   provide: COFFEE_BRANDS, // 👈
     //   useValue: ['buddy brew', 'nescafe', 'pilao'] // array of coffee brands,
     // },
-    // {
-    //   provide: COFFEE_BRANDS, // 👈
-    //   useFactory: () => ['buddy brew', 'nescafe', 'pilao'] // array of coffee brands,
-    // },
+    {
+      provide: COFFEE_BRANDS, // 👈
+      useFactory: () => ['buddy brew', 'nescafe', 'pilao'] // array of coffee brands,
+    },
     // {
     //   provide: COFFEE_BRANDS, // não está funcionando verificar
     //   useFactory: (brandsFactory: CoffeeBrandsFactory) => 
     //   brandsFactory.create(),
     //   inject: [CoffeeBrandsFactory]
     // },
-    {
-      provide: COFFEE_BRANDS,
-      // Note "async" here, and Promise/Async event inside the Factory function 
-      // Could be a database connection / API call / etc
-      // In our case we're just "mocking" this type of event with a Promise
-      useFactory: async (connection: Connection): Promise<string[]> => {
-        // const coffeeBrands = await connection.query('SELECT * ...');
-        const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe', 'pilao'])
-        return coffeeBrands;
-      },
-      // inject: [Connection],
-      inject: [],
-    },
+    // {
+    //   provide: COFFEE_BRANDS,
+    //   // Note "async" here, and Promise/Async event inside the Factory function 
+    //   // Could be a database connection / API call / etc
+    //   // In our case we're just "mocking" this type of event with a Promise
+    //   useFactory: async (connection: Connection): Promise<string[]> => {
+    //     // const coffeeBrands = await connection.query('SELECT * ...');
+    //     const coffeeBrands = await Promise.resolve(['buddy brew', 'nescafe', 'pilao'])
+    //     return coffeeBrands;
+    //   },
+    //   // inject: [Connection],
+    //   inject: [],
+    // },
   ],
   exports: [CoffeesService]
 })

@@ -7,6 +7,7 @@ import { CoffeesModule } from './coffees/coffees.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
+import { DatabaseModule } from './database/database.module';
 import * as Joi from 'joi';
 @Module({
   imports: [
@@ -22,13 +23,32 @@ import * as Joi from 'joi';
         const uri = configService.get('MONGO_URI');
         return {
           uri,
+          // connectionName: 'users',
         };
       },
     }),
     CoffeesModule,
     CoffeeRatingModule,
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule { }
+
+
+
+// import { Module } from '@nestjs/common';
+// import { MongooseModule } from '@nestjs/mongoose';
+
+// @Module({
+//   imports: [
+//     MongooseModule.forRoot('mongodb://localhost/test', {
+//       connectionName: 'cats',
+//     }),
+//     MongooseModule.forRoot('mongodb://localhost/users', {
+//       connectionName: 'users',
+//     }),
+//   ],
+// })
+// export class AppModule {}
