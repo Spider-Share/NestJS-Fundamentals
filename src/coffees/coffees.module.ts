@@ -1,5 +1,5 @@
 /* CoffeesModule FINAL CODE */
-import { Injectable, Module } from '@nestjs/common';
+import { Injectable, Module, Scope } from '@nestjs/common';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -40,7 +40,8 @@ export class CoffeeBrandsFactory {
     // },
     {
       provide: COFFEE_BRANDS, // 👈
-      useFactory: () => ['buddy brew', 'nescafe', 'pilao'] // array of coffee brands,
+      useFactory: () => ['buddy brew', 'nescafe', 'pilao'], // array of coffee brands,
+      scope: Scope.TRANSIENT
     },
     // {
     //   provide: COFFEE_BRANDS, // não está funcionando verificar

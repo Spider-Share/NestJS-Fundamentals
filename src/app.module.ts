@@ -8,12 +8,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
-import * as Joi from 'joi';
+// import * as Joi from 'joi';
+import * as Joi from '@hapi/joi';
+
 @Module({
   imports: [
+    //  para o .env funcionar precisa do ConfigModule.forRoot()
+    // MongooseModule.forRoot(process.env.MONGO_URI), // comunicação normal 
+    
+
     ConfigModule.forRoot({
       validationSchema: Joi.object({
         MONGO_URI: Joi.string().required(),
+        MONGO_PORT: Joi.number().default(process.env.PORT || +process.env.MONGO_PORT).required(), // testar no servidor
       }),
     }),
     MongooseModule.forRootAsync({
@@ -34,7 +41,18 @@ import * as Joi from 'joi';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    const val1 = process.env.TESTE_NUMBER
+    const val2 = +process.env.TESTE_NUMBER
+    const val3 = +process.env.PORT
+    console.log(typeof val1 + ' ' + val1)
+    console.log(typeof val2 + ' ' + val2)
+    console.log(typeof val3 + ' ' + val3)
+
+  }
+
+}
 
 
 
