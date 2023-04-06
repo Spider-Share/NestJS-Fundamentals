@@ -10,19 +10,22 @@ import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
 // import * as Joi from 'joi';
 import * as Joi from '@hapi/joi';
+import appConfig from './config/app.config';
 
 @Module({
   imports: [
     //  para o .env funcionar precisa do ConfigModule.forRoot()
     // MongooseModule.forRoot(process.env.MONGO_URI), // comunicação normal 
     
-
     ConfigModule.forRoot({
-      validationSchema: Joi.object({
-        MONGO_URI: Joi.string().required(),
-        MONGO_PORT: Joi.number().default(process.env.PORT || +process.env.MONGO_PORT).required(), // testar no servidor
-      }),
+      load: [appConfig], // 👈
     }),
+    // ConfigModule.forRoot({
+    //   validationSchema: Joi.object({
+    //     MONGO_URI: Joi.string().required(),
+    //     MONGO_PORT: Joi.number().default(process.env.PORT || +process.env.MONGO_PORT).required(), // testar no servidor
+    //   }),
+    // }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -45,10 +48,12 @@ export class AppModule {
   constructor() {
     const val1 = process.env.TESTE_NUMBER
     const val2 = +process.env.TESTE_NUMBER
-    const val3 = +process.env.PORT
+    const val3 =  process.env.PORT
+    const val4=   process.env.NODE_ENV
     console.log(typeof val1 + ' ' + val1)
     console.log(typeof val2 + ' ' + val2)
     console.log(typeof val3 + ' ' + val3)
+    console.log(typeof val4 + ' ' + val4)
 
   }
 

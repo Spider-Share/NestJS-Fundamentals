@@ -31,7 +31,9 @@ export class CoffeesService {
         // console.log('connection connection',connection) // Pega toda a conecção do mongoose
         console.log('coffeeBrands coffeeBrands', coffeeBrands) // scope: Scope.REQUEST só aparece quando ocorrer um request
 
-        const databaseHost = this.configService.get<string>('DATABASE_HOST', process.env.MONGO_URI);
+        // const databaseHost = this.configService.get<string>('MONGO_URI', 'mongodb://localhost/nest-course');
+        // const databaseHost = this.configService.get('database.MONGO_URI', 'mongodb://localhost/nest-course');
+        const databaseHost = this.configService.get('database.host', 'mongodb://localhost/nest-course');
         console.log('databaseHost', databaseHost);
     }
 
