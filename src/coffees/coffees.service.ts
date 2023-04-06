@@ -18,7 +18,7 @@ export class CoffeesService {
         const { limit, offset } = paginationQuery;
         return this.coffeeModel
           .find()
-          .skip(offset)
+          .skip(offset) 
           .limit(limit)
           .exec();
       }
