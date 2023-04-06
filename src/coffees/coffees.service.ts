@@ -7,6 +7,7 @@ import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { Event, EventDocument } from './schemas/events/event.schema';
+import { COFFEE_BRANDS } from './constants/coffees.constants';
 
 @Injectable()
 export class CoffeesService {
@@ -15,8 +16,9 @@ export class CoffeesService {
         @InjectModel(Coffee.name) private readonly coffeeModel: Model<CoffeeDocument>,
         @InjectModel(Event.name) private readonly eventModel: Model<EventDocument>,
         @InjectConnection() private readonly connection: Connection, // For Transactions
-        @Inject('COFFEE_BRANDS') coffeeBrands: string[]
+        @Inject(COFFEE_BRANDS) coffeeBrands: string[]
     ) { 
+        // console.log('connection connection',connection) // Pega toda a conecção do mongoose
         console.log('coffeeBrands coffeeBrands',coffeeBrands)
     }
 
