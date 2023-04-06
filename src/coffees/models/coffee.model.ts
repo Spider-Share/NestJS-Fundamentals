@@ -3,6 +3,6 @@ export class CoffeeMoedl {
    public name: string,
    public brand: string,
    public flavors: string[],
-   public _id: number,
+   public _id?: string,
   ) { }
 }

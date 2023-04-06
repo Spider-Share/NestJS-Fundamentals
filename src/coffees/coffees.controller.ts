@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 
 @Controller('coffees')
 export class CoffeesController {
@@ -58,18 +59,23 @@ export class CoffeesController {
 
     // class Creating a Basic Service
     @Get()
-    findAll(@Query() paginationQuery) {
+    findAll(@Query() paginationQuery: PaginationQueryDto) {
         // const { limit, offset } = paginationQuery;
-        return this.coffeesService.findAll();
+        return this.coffeesService.findAll(paginationQuery);
     }
 
+    // @Get(':id')
+    // findOne(@Param('id') id: number) {
+    //     console.log(typeof id)
+    //     /*  app.useGlobalPipes(new ValidationPipe({ transform: true, }));
+    //         sem o transform: true o console continua retornando o ID como string  https://learn.nestjs.com/courses/591712/lectures/23192392
+    //     */
+    //     return this.coffeesService.findOne('' + id);
+    // }
+
     @Get(':id')
-    findOne(@Param('id') id: number) {
-        console.log(typeof id)
-        /*  app.useGlobalPipes(new ValidationPipe({ transform: true, }));
-            sem o transform: true o console continua retornando o ID como string  https://learn.nestjs.com/courses/591712/lectures/23192392
-        */
-        return this.coffeesService.findOne('' + id);
+    findOne(@Param('id') id: string) {
+        return this.coffeesService.findOne(id);
     }
 
     @Post()

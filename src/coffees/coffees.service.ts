@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { Coffee, CoffeeDocument } from './schemas/coffee.schema';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { PaginationQueryDto } from './dto/pagination-query.dto';
 
 @Injectable()
 export class CoffeesService {
@@ -13,11 +14,16 @@ export class CoffeesService {
         @InjectModel(Coffee.name) private readonly coffeeModel: Model<CoffeeDocument>,
     ) { }
 
-    findAll(): Promise<CoffeeMoedl[]>  {
-        return this.coffeeModel.find().exec();
-    }
+    findAll(paginationQuery: PaginationQueryDto) {
+        const { limit, offset } = paginationQuery;
+        return this.coffeeModel
+          .find()
+          .skip(offset)
+          .limit(limit)
+          .exec();
+      }
 
-    async findOne(id: string): Promise<CoffeeMoedl>  {
+    async findOne(id: string): Promise<CoffeeMoedl> {
         const coffee = await this.coffeeModel.findOne({ _id: id }).exec();
         if (!coffee) {
             throw new NotFoundException(`Coffee #${id} not found`);
@@ -41,9 +47,11 @@ export class CoffeesService {
         return existingCoffee;
     }
 
-    async remove(id: string) {
-        const coffee = await this.findOne(id);
-        return coffee
-
+    async remove(id: string): Promise<CoffeeMoedl> {
+        const coffee = await this.coffeeModel.findByIdAndRemove(id).exec();;
+        if (!coffee) {
+            throw new NotFoundException(`Coffee #${id} not found`);
+        }
+        return coffee;
     }
 }
