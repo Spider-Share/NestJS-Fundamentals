@@ -9,6 +9,7 @@ import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { Event, EventDocument } from './schemas/events/event.schema';
 import { COFFEE_BRANDS } from './constants/coffees.constants';
 import { REQUEST } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 
 // https://ru-nestjs-docs.netlify.app/fundamentals/injection-scopes
 // SINGLETON	Uma única instância do provedor é compartilhada em todo o aplicativo. O tempo de vida da instância está diretamente ligado ao ciclo de vida do aplicativo. Depois que o aplicativo foi inicializado, todos os provedores singleton foram instanciados. O escopo Singleton é usado por padrão.
@@ -24,10 +25,14 @@ export class CoffeesService {
         @InjectModel(Event.name) private readonly eventModel: Model<EventDocument>,
         @InjectConnection() private readonly connection: Connection, // For Transactions
         @Inject(COFFEE_BRANDS) coffeeBrands: string[],
-   
-    ) { 
+        private readonly configService: ConfigService,
+
+    ) {
         // console.log('connection connection',connection) // Pega toda a conecção do mongoose
-        console.log('coffeeBrands coffeeBrands',coffeeBrands) // scope: Scope.REQUEST só aparece quando ocorrer um request
+        console.log('coffeeBrands coffeeBrands', coffeeBrands) // scope: Scope.REQUEST só aparece quando ocorrer um request
+
+        const databaseHost = this.configService.get<string>('DATABASE_HOST', process.env.MONGO_URI);
+        console.log('databaseHost', databaseHost);
     }
 
     findAll(paginationQuery: PaginationQueryDto) {
@@ -52,7 +57,7 @@ export class CoffeesService {
         return coffee.save();
     }
 
-    
+
     async update(id: string, updateCoffeeDto: UpdateCoffeeDto): Promise<CoffeeMoedl> {
         const existingCoffee = await this.coffeeModel
             .findOneAndUpdate({ _id: id }, { $set: updateCoffeeDto }, { new: true })

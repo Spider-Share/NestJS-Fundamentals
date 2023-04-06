@@ -7,6 +7,7 @@ import { Coffee, CoffeeSchema } from './schemas/coffee.schema';
 import { Event, EventSchema } from './schemas/events/event.schema';
 import { COFFEE_BRANDS } from './constants/coffees.constants';
 import { Connection } from 'mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Injectable()
 export class CoffeeBrandsFactory {
@@ -29,11 +30,13 @@ export class CoffeeBrandsFactory {
         name: Event.name,
         schema: EventSchema
       }
-    ])
+    ]),
+    ConfigModule
   ],
   controllers: [CoffeesController],
   providers: [
     CoffeesService,
+    
     // {
     //   provide: COFFEE_BRANDS, // 👈
     //   useValue: ['buddy brew', 'nescafe', 'pilao'] // array of coffee brands,
