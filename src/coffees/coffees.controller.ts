@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, Patch, Post, Put, Query, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Inject, Param, ParseIntPipe, Patch, Post, Put, Query, Res } from '@nestjs/common';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
@@ -67,7 +67,7 @@ export class CoffeesController {
     @Get()
     async findAll(@Query() paginationQuery: PaginationQueryDto) {
         // const { limit, offset } = paginationQuery;
-        await new Promise(resolve => setTimeout(resolve, 5000)); // testando TimeoutInterceptor
+        // await new Promise(resolve => setTimeout(resolve, 5000)); // testando TimeoutInterceptor
         return this.coffeesService.findAll(paginationQuery);
     }
 
@@ -80,8 +80,10 @@ export class CoffeesController {
     //     return this.coffeesService.findOne('' + id);
     // }
 
+    @Public()
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findOne(@Param('id', ParseIntPipe) id: string) {
+        console.log('sssssssssssssssss',id)
         return this.coffeesService.findOne(id);
     }
 
