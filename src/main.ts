@@ -15,7 +15,7 @@ async function bootstrap() {
     }
   }));
   app.useGlobalFilters(new HttpExceptionFilter()), // Catch Exceptions with Filters
-  app.useGlobalGuards(new ApiKeyGuard()) // Protect Routes with Guards
+  // app.useGlobalGuards(new ApiKeyGuard()) // Protect Routes with Guards - quando usado no múdulo interno não pode usar global
 
   await app.listen(process.env.PORT || 3000);
 }

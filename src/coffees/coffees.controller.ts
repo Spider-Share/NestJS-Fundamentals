@@ -5,6 +5,7 @@ import { UpdateCoffeeDto } from './dto/update-coffee.dto';
 import { PaginationQueryDto } from './dto/pagination-query.dto';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
+import { Public } from 'src/common/decorators/public.decorator';
 @Controller('coffees')
 export class CoffeesController {
 
@@ -62,6 +63,7 @@ export class CoffeesController {
 
 
     // class Creating a Basic Service
+    @Public() // public Authorization2
     @Get()
     findAll(@Query() paginationQuery: PaginationQueryDto) {
         // const { limit, offset } = paginationQuery;
