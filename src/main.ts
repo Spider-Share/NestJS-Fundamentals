@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception/http-exception.filter';
 import { ApiKeyGuard } from './common/guards/api-key/api-key.guard';
+import { WrapResponseInterceptor } from './common/interceptors/wrap-response/wrap-response.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,7 +17,7 @@ async function bootstrap() {
   }));
   app.useGlobalFilters(new HttpExceptionFilter()), // Catch Exceptions with Filters
   // app.useGlobalGuards(new ApiKeyGuard()) // Protect Routes with Guards - quando usado no múdulo interno não pode usar global
-
+  app.useGlobalInterceptors(new WrapResponseInterceptor());
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
